@@ -25,14 +25,28 @@ while commands != 'Yohoho!':
         index = int(command_split[1])
         if if_index_valid(loot, index):
 
-            loot.remove(index)
+            element = loot.pop(index)
+            loot.append(element)
 
 
 
     elif command == 'Steal':
-        pass
+        count = int(command_split[1])
+
+        length = len(loot) -count
+        if len(loot) >= count:
+            stealed = loot[length:]
+        print(*stealed, sep=', ')
 
 
 
 
     commands = input()
+
+sum = 0
+for el in loot[:length]:
+    sum += len(el)
+if length > 0:
+    print(f'Average treasure gain: {sum/length:.2f} pirate credits.')
+else:
+    print('Failed treasure hunt.')
