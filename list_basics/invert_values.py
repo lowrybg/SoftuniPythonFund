@@ -1,3 +1,0 @@
-u = '-inf'
-print(u)
-
