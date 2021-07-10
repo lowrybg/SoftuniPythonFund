@@ -1,15 +1,27 @@
-import  math
-nums = input().split(', ')
-numbers = [int (n) for n in nums]
+names_list = input().split(', ')
 
-max_num = max(numbers)
-cycle = math.ceil(max_num/10)
-x = 1
+lines = input(). split()
 
-while x < cycle+1:
-    ten_s = x*10
+while lines != 'Report':
 
-    print(f'Group of {ten_s}\'s: {[int(num) for num in numbers if num<=ten_s and num > ten_s -10]}')
-    x+=1
+    command = lines[0]
 
+    if command == 'Blacklist':
+        name = lines[1]
+        if name in names_list:
+            print(f'{name} was blacklisted.')
+            names_list[name.index(name)] = 'Blacklisted'
+        else:
+            print(f'{name} was not found.')
 
+    elif command == 'Error':
+        error_index = int(lines[1])
+
+        if 0<=error_index <len(names_list) and names_list[error_index] != 'Blacklisted' and names_list[error_index] != 'Lost':
+           print(f'{names_list[error_index]} was lost due to an error.')
+           names_list[error_index] = 'Lost'
+        else:
+            continue
+
+    elif command == 'Change':
+           pass
