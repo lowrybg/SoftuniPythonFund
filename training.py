@@ -1,4 +1,1 @@
-print('Test')
-
-for _ in range (6):
-    print('Test')
+print('Test after relocating to desktop')
