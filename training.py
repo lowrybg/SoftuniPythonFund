@@ -1,1 +1,0 @@
-print('Test after relocating to desktop')
