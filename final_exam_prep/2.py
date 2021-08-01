@@ -1,29 +1,16 @@
 import re
-import numpy
 
+pattern = r"(/|\=)[A-Z][a-zA-Z][a-zA-Z]+\1"
+text = input()
 
-def multiply_elements(myList):
-    result = 1
-    for el in myList:
-        result *= el
-    return result
+valid_destinations = [d.group() for d in re.finditer(pattern, text)]
+for index in range(len(valid_destinations)):
+    if valid_destinations[index].startswith("="):
+        valid_destinations[index] = valid_destinations[index].strip('=')
+    else:
+        valid_destinations[index] = valid_destinations[index].strip('/')
 
+travel_points = sum([len(d) for d in valid_destinations])
 
-pattern = r"(\*{2}|\:{2})[A-Z][a-z]{2,}\1"
-data = input()
-cool_emojis = []
-all_emojis = re.finditer(pattern, data)
-all_emojis = [emoji.group() for emoji in all_emojis]
-cool_sum = [int(digit.group()) for digit in re.finditer(r"\d", data)]
-cool_sum = multiply_elements(cool_sum)
-for emoji in all_emojis:
-    current_emoji_value = 0
-    current_emoji = emoji[2:-2]
-    for letter in current_emoji:
-        current_emoji_value += ord(letter)
-    if current_emoji_value >= cool_sum:
-        cool_emojis.append(emoji)
-print(f"Cool threshold is: {cool_sum}")
-print(f"{len(all_emojis)} emojis found in the text. The cool ones are:")
-if cool_emojis:
-    print(*cool_emojis, sep="\n")
+print(f"Destinations: {', '.join(valid_destinations)}")
+print(f"Travel Points: {travel_points}")

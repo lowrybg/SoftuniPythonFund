@@ -1,27 +1,28 @@
-encrypted_message = input()
+def is_index_valid(index, string):
+    if 0 <= index < len(string):
+        return True
+    return False
+
+
+initial_string = input()
 
 data = input()
 
-
-# TODO refactor the code in ifs to use functions
-
-while not data == "Decode":
-    command = data.split("|")
-    if command[0] == "ChangeAll":
-        replace = command[1]
-        replace_with = command[2]
-        encrypted_message = encrypted_message.replace(replace, replace_with)
-    elif command[0] == "Insert":
-        index = int(command[1])
-        value = command[2]
-        first_part = encrypted_message[:index]
-        second_part = encrypted_message[index:]
-        encrypted_message = first_part + value + second_part
-    elif command[0] == "Move":
-        n_chars = int(command[1])
-        chars_to_move = encrypted_message[:n_chars]
-        first_part = encrypted_message[n_chars:]
-        encrypted_message = first_part + chars_to_move
+while not data == "Travel":
+    command, val_1, val_2 = data.split(":")
+    if command.startswith("Add"):
+        index = int(val_1)
+        if is_index_valid(index, initial_string):
+            initial_string = initial_string[:index] + val_2 + initial_string[index:]
+    elif command.startswith("Remove"):
+        start_index = int(val_1)
+        end_index = int(val_2)
+        if is_index_valid(start_index, initial_string) and is_index_valid(end_index, initial_string):
+            initial_string = initial_string[:start_index] + initial_string[end_index+1:]
+    elif command.startswith("Switch"):
+        if val_1 in initial_string:
+            initial_string = initial_string.replace(val_1, val_2)
+    print(initial_string)
     data = input()
 
-print(f"The decrypted message is: {encrypted_message}")
+print(f"Ready for world tour! Planned stops: {initial_string}")

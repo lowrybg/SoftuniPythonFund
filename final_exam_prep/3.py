@@ -1,39 +1,78 @@
 n = int(input())
-pieces = {}
 
+plants = {}
 
 for _ in range(n):
-    piece, composer, key = input().split("|")
-    pieces[piece] = {'composer': composer, 'key': key}
-
+    plant_name, rarity = input().split("<->")
+    rarity = int(rarity)
+    plants[plant_name] = {'rarity': rarity, 'ratings': []}
 
 data = input()
 
-while not data == "Stop":
-    command = data.split("|")
-    if command[0] == "Add":
-        piece, composer, key = command[1:]
-        if piece in pieces:
-            print(f"{piece} is already in the collection!")
+while not data == "Exhibition":
+    command, command_params = data.split(": ")
+    if command == "Rate":
+        plant_name, rating = command_params.split(" - ")
+        rating = int(rating)
+        if plant_name in plants:
+            plants[plant_name]['ratings'].append(rating)
         else:
-            pieces[piece] = {'composer': composer, 'key': key}
-            print(f"{piece} by {composer} in {key} added to the collection!")
-    elif command[0] == "Remove":
-        piece = command[1]
-        if piece in pieces:
-            del pieces[piece]
-            print(f"Successfully removed {piece}!")
+            print("error")
+    elif command == "Update":
+        plant_name, rarity = command_params.split(" - ")
+        rarity = int(rarity)
+        if plant_name in plants:
+            plants[plant_name]['rarity'] = rarity
         else:
-            print(f"Invalid operation! {piece} does not exist in the collection.")
-    elif command[0] == "ChangeKey":
-        piece, new_key = command[1:]
-        if piece in pieces:
-            pieces[piece]['key'] = new_key
-            print(f"Changed the key of {piece} to {new_key}!")
+            print("error")
+    elif command == "Reset":
+        plant_name = command_params
+        if plant_name in plants:
+            plants[plant_name]['ratings'].clear()
         else:
-            print(f"Invalid operation! {piece} does not exist in the collection.")
+            print("error")
+    else:
+        print("error")
     data = input()
 
-sorted_pieces = sorted(pieces.items(), key=lambda tkvp: (tkvp[0], tkvp[1]['composer']))
-for piece, data in sorted_pieces:
-    print(f"{piece} -> Composer: {data['composer']}, Key: {data['key']}")
+
+# Same while could be present more easily for errors like this:
+# while not data == "Exhibition":
+#     command, command_params = data.split(": ")
+#     try:
+#         if command == "Rate":
+#             plant_name, rating = command_params.split(" - ")
+#             rating = int(rating)
+#             plants[plant_name]['ratings'].append(rating)
+#         elif command == "Update":
+#             plant_name, rarity = command_params.split(" - ")
+#             rarity = int(rarity)
+#             plants[plant_name]['rarity'] = rarity
+#
+#         elif command == "Reset":
+#             plant_name = command_params
+#             plants[plant_name]['ratings'].clear()
+#
+#         else:
+#             print("error")
+#     except KeyError:
+#         print("error")
+#     data = input()
+
+
+for plant_name, value in plants.items():
+    if value['ratings']:
+        avg = sum(value['ratings']) / len(value['ratings'])
+    else:
+        avg = 0
+    plants[plant_name]['avg'] = avg
+
+
+# Please note that both options are valid because we must sort
+# descenting INTEGER values (int values can be sorted desc with - infront of them)
+# sorted_plants = sorted(plants.items(), key=lambda tkvp: (-tkvp[1]['rarity'], -tkvp[1]['avg']))
+sorted_plants = sorted(plants.items(),  key=lambda tkvp: (tkvp[1]['rarity'], -tkvp[1]['avg']))
+
+print("Plants for the exhibition:")
+for plant_name, values in sorted_plants:
+    print(f"- {plant_name}; Rarity: {values['rarity']}; Rating: {values['avg']:.2f}")
