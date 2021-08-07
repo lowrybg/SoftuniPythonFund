@@ -71,7 +71,7 @@ for plant_name, value in plants.items():
 # Please note that both options are valid because we must sort
 # descenting INTEGER values (int values can be sorted desc with - infront of them)
 # sorted_plants = sorted(plants.items(), key=lambda tkvp: (-tkvp[1]['rarity'], -tkvp[1]['avg']))
-sorted_plants = sorted(plants.items(),  key=lambda tkvp: (tkvp[1]['rarity'], -tkvp[1]['avg']))
+sorted_plants = sorted(plants.items(),  key=lambda tkvp: (-tkvp[1]['rarity'], -tkvp[1]['avg']))
 
 print("Plants for the exhibition:")
 for plant_name, values in sorted_plants:
