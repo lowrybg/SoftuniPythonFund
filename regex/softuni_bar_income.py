@@ -1,5 +1,5 @@
 import re
-
+#TODO 40%
 pattern = r"%(?P<name>[A-Z][a-z]+)%<(?P<product>[A-Za-z]+)>[A-Za-z]*(\|)(?P<quantity>[0-9]+)(\|)[A-Za-z]*(?P<price>\d+(.\d+)?)\$"
 
 line = input()

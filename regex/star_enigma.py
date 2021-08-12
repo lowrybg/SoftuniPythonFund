@@ -1,5 +1,5 @@
 import re
-
+#TODO 60%
 num = int(input())
 
 pattern_star = r"[s, t, a, r]"
