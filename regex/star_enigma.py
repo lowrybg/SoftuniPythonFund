@@ -1,9 +1,10 @@
 import re
-#TODO 60%
+#TODO 80%
 num = int(input())
 
 pattern_star = r"[s, t, a, r]"
-pattern_decr = r"@(?P<planet>[A-za-z]+)[0-9]?:(?P<population>[0-9]+)!(?P<attack>[A,D])!->(?P<soldier>[0-9]+)"
+pattern_decr = r"@(?P<planet>[A-za-z]+)[^@,\!\:\>\-]*:(?P<population>[0-9]+)[^@,\!\:\>\-]*"\
+    r"!(?P<attack>[A,D])![^@,\!\:\>\-]*->(?P<soldier>[0-9]+)"
 decripted = {}
 for mes in range(num):
     line = input()
